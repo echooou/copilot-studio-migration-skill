@@ -1,5 +1,7 @@
 # Copilot Studio Migration Skill
 
+> **English version**: [README.en.md](README.en.md)
+
 Microsoft Copilot Studio の **Classic エージェント**（トピックベース）を **New Experience エージェント**（Instructions ベース）に移行する GitHub Copilot / Microsoft Scout 用スキルです。
 
 ## 概要
