@@ -1,0 +1,7 @@
+# Debug/test artifacts
+classic/
+new/
+*.json
+new_migrated_bot_id.txt
+create_agent.ps1
+add_tools.ps1
