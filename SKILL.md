@@ -89,7 +89,59 @@ For each workflow:
 
 6. **Verify** the tool appears in the Tools list on the Build page
 
-#### Step 2c: Configure Connections
+#### Step 2c: Add Connector Tools
+
+For each Connector action identified in Phase 1 (e.g., Microsoft Teams):
+
+1. Click **"Add a tool"** on the Build page
+2. Search for the connector name (e.g., "Microsoft Teams")
+3. Select the specific operation (e.g., "Post message to conversation")
+4. Configure any required parameters
+5. Click **"Add"** to confirm
+
+#### Step 2d: Add Connected Agents (子エージェント)
+
+If the Classic agent had agent-to-agent connections (InvokeExternalAgentTaskAction without MCP):
+
+1. Find the **"Connected agents"** section on the Build page
+2. Click **"Add"** or **"接続済みエージェントを追加"**
+3. Search for the agent by name
+4. Select and add
+5. Verify it appears in the Connected agents list
+
+Note: Fabric/Foundry Data Agents may not appear in this list. If not found, report to user.
+
+#### Step 2e: Add Knowledge Sources (SharePoint, URL, Files)
+
+If the Classic agent had knowledge sources beyond Dataverse:
+
+1. Find the **"Knowledge"** section on the Build page
+2. Click **"Add knowledge"** or **"ナレッジを追加"**
+3. For **SharePoint**: Select "SharePoint" → Enter the site/library URL
+4. For **URLs**: Select "Website" → Enter the URL
+5. For **Files**: Select "Files" → Upload the files
+6. Verify knowledge sources appear in the list
+
+#### Step 2f: Enable Code Interpreter
+
+If the Classic agent had Code Interpreter enabled (`codeInterpreter: true` in GPT config):
+
+1. Look for a **Code Interpreter** toggle or setting in the Build page
+2. Enable it
+3. Verify it's active
+
+#### Step 2g: Add AI Builder Prompts as Tools
+
+If the Classic agent had AI Builder prompt nodes:
+
+1. Click **"Add a tool"** on the Build page
+2. Search for the prompt name or select "AI Builder" category
+3. Copy the original prompt text from Phase 1 output
+4. Configure the tool with the prompt content
+5. Set model and input/output parameters manually
+6. Save
+
+#### Step 2h: Configure Connections
 
 After adding tools, connections may need authentication:
 
@@ -103,16 +155,16 @@ After adding tools, connections may need authentication:
 
 3. **If no warnings appear**, connections are already configured (this is common when the same connectors are used in other agents in the environment)
 
-#### Step 2d: Test in Preview
+#### Step 2i: Test in Preview
 
 1. Click the **"Preview"** tab
-2. Send a test message: "ASK PPSEについて教えて"
+2. Send a test message related to the agent's knowledge domain
 3. Verify the agent responds with knowledge-based answer
-4. Send: "エスカレーション"
-5. Verify the agent starts asking for escalation information conversationally
+4. If the agent has escalation flows, test with the trigger phrase
+5. Verify the agent starts asking for information conversationally
 6. Report test results to user
 
-#### Step 2e: Publish (Optional - Ask User First)
+#### Step 2j: Publish (Optional - Ask User First)
 
 Before publishing, ASK the user if they want to publish:
 > "テストが完了しました。エージェントを公開しますか？"
@@ -137,11 +189,23 @@ If yes:
 （Microsoft Scout で実行すると自動化できます）
 
 1. Copilot Studio を開く: {agentUrl}
-2. "Add a tool" → "Workflow" → "{flowName}" を追加
-   Flow ID: {flowId}
-3. 各 Tool の Connection を認証 (Configure → Sign in)
-4. Preview タブでテスト
-5. Publish
+2. Workflow の追加:
+   - "Add a tool" → "Workflow" → "{flowName}"
+   - Flow ID: {flowId}
+3. Connector の追加（該当する場合）:
+   - "Add a tool" → "{connectorName}"
+4. Connected Agents の追加（該当する場合）:
+   - "Connected agents" → エージェント検索 → 追加
+5. Knowledge Source の追加（SharePoint/URL/Files がある場合）:
+   - "Knowledge" → "Add knowledge" → ソース追加
+6. Code Interpreter の有効化（Classic で有効だった場合）:
+   - Build ページで Code Interpreter トグルを ON
+7. AI Builder プロンプトの再構成（該当する場合）:
+   - "Add a tool" → プロンプト内容をコピーして設定
+   - 元のプロンプト: {promptText}
+8. Connection の認証: 各 Tool の Configure → Sign in
+9. Preview タブでテスト
+10. Publish
 
 💡 ヒント: このスキルを Microsoft Scout で実行すると、上記のステップも
    すべて自動で実行されます。
