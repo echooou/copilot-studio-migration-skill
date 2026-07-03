@@ -130,16 +130,13 @@ If the Classic agent had Code Interpreter enabled (`codeInterpreter: true` in GP
 2. Enable it
 3. Verify it's active
 
-#### Step 2g: Add AI Builder Prompts as Tools
+#### Step 2g: AI Builder Prompts (Currently Not Available in New Experience)
 
-If the Classic agent had AI Builder prompt nodes:
-
-1. Click **"Add a tool"** on the Build page
-2. Search for the prompt name or select "AI Builder" category
-3. Copy the original prompt text from Phase 1 output
-4. Configure the tool with the prompt content
-5. Set model and input/output parameters manually
-6. Save
+As of July 2026, AI Builder prompts cannot be added as standalone tools in the New Experience.
+If the Classic agent had AI Builder prompts:
+- As a **topic node** (`InvokeAIBuilderModelAction`): The prompt logic is converted to Instructions
+- As a **standalone tool**: NOT available in New Experience yet. Report to user:
+  > "AI Builder プロンプトツールは現在 New Experience で未提供です。将来のアップデートで対応予定です。"
 
 #### Step 2h: Configure Connections
 
