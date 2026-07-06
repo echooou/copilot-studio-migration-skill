@@ -2,13 +2,20 @@
 
 > **English version**: [README.en.md](README.en.md)
 
-Microsoft Copilot Studio の **Classic エージェント**（トピックベース）を **New Experience エージェント**（Instructions ベース）に移行する GitHub Copilot / Microsoft Scout 用スキルです。
+Microsoft Copilot Studio の **Classic エージェント**を **New Experience エージェント**に移行する GitHub Copilot / Microsoft Scout 用スキルです。
 
 ## 概要
 
-2026年6月にリリースされた Copilot Studio の新しいエージェント体験（New Experience）は、トピックベースの会話設計から、自然言語 Instructions + Tools/Skills による設計に移行しています。しかし、公式には Classic → New の移行パスは提供されていません。
+Copilot Studio の Classic エージェントは、Generative AI オーケストレーション、Instructions、Topics、Knowledge、MCP、Power Automate 連携、Adaptive Card など豊富な機能を備えた本格的なエージェント構築プラットフォームです。
 
-このスキルは、Classic エージェントの URL を入力するだけで、New Experience エージェントを自動作成します。
+2026年6月にリリースされた **New Experience** は、この Classic をさらに進化させたもので、主な違いは以下の通りです：
+
+- **Topics の廃止**: Classic では Topics（トリガー + ノードベースの会話フロー）と Instructions を併用できたが、New では Topics が完全に廃止され、すべて Instructions + Tools/Skills で制御
+- **オーケストレーション刷新**: Classic の Generative AI Recognizer から、Enhanced Orchestration Runtime（CLICopilotRecognizer）に変更。より深い推論能力
+- **統合 UI**: Classic の Topics/Knowledge/Actions/Settings の分離ナビゲーションから、Build/Preview/Evaluate/Monitor のタブベース UI に統合
+- **Skills**: 再利用可能な Markdown ベースの Skill パッケージが新規追加
+
+公式には Classic → New の移行パスは提供されていません。このスキルは、Classic エージェントの URL を入力するだけで、New Experience エージェントを自動作成します。
 
 ## 機能
 
@@ -25,16 +32,18 @@ Microsoft Copilot Studio の **Classic エージェント**（トピックベー
 
 ## Classic → New 変換ルール
 
-| Classic の要素 | New での対応 |
-|---|---|
-| Topics (トリガー + ノード) | Instructions（自然言語記述） |
-| Adaptive Card フォーム | 対話型ヒアリング（LLMが質問） |
-| Adaptive Card ボタン (messageBack) | テキストトリガー |
-| Knowledge Source (Dataverse) | Dataverse MCP Tool |
-| MCP Server アクション | McpTool コンポーネント |
-| Power Automate フロー | Workflow Tool（UI で追加） |
-| Connector アクション | Tool（UI で追加） |
-| System Topics | 不要（オーケストレーターが処理） |
+| Classic の要素 | New での対応 | 備考 |
+|---|---|---|
+| Instructions (GPT Config) | `agentSettings.instructions` | ほぼそのまま移行 |
+| Topics (トリガー + ノード) | Instructions に統合 | Classic でも Instructions 併用可だったが、New では Topics 自体が廃止 |
+| Knowledge Source (Dataverse) | Dataverse MCP Tool + Instructions にテーブル詳細 | アクセス方式が変わる |
+| MCP Server アクション | McpTool コンポーネント | フォーマット変換のみ |
+| Power Automate フロー | Workflow Tool（UI で追加） | Flow 自体は再利用 |
+| Connector アクション | Tool（UI で追加） | Connection 再設定が必要 |
+| Adaptive Card フォーム | 対話型ヒアリング（LLMが質問） | ビジュアル UX は変わる |
+| Adaptive Card ボタン (messageBack) | テキストトリガー | ワンタップ → テキスト入力 |
+| System Topics | 不要（Enhanced Orchestrator が自動処理） | Greeting 等の内容は Instructions に含める |
+| Generative AI Recognizer | CLICopilotRecognizer (Enhanced) | 自動変換 |
 
 ## 前提条件
 
