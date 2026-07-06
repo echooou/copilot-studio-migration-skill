@@ -163,6 +163,45 @@ foreach ($topic in $customTopics) {
     }
 }
 
+# Add Dataverse knowledge source details to instructions
+# Classic uses Knowledge Source (type 16) → New uses Dataverse MCP Tool
+# Extract table/column info from knowledge config and existing instructions
+if ($knowledgeSources.Count -gt 0) {
+    $knowledgeDetails = @()
+    foreach ($ks in $knowledgeSources) {
+        $ksData = $ks.data
+        $ksKind = ""
+        $ksConfig = ""
+        if ($ksData -match "kind:\s*(\w+)") { $ksKind = $Matches[1] }
+        if ($ksData -match "skillConfiguration:\s*(\S+)") { $ksConfig = $Matches[1] }
+        $knowledgeDetails += @{ name = $ks.name; kind = $ksKind; config = $ksConfig }
+    }
+    
+    # Also extract Dataverse table info from MCP tool definitions (if present)
+    $dvMcpTools = $mcpTools | Where-Object { $_.data -match "commondataserviceforapps|InvokeMCP" }
+    
+    # Check if instructions already mention Dataverse/knowledge table usage
+    if ($baseInstructions -notmatch "Dataverse MCP") {
+        $baseInstructions += "`n`n## Dataverse MCP ツール利用ガイド`n"
+        $baseInstructions += "Dataverse MCP Tool を使用してナレッジを検索します。`n"
+        foreach ($kd in $knowledgeDetails) {
+            if ($kd.kind -eq "DataverseStructuredSearchSource") {
+                $baseInstructions += "- ナレッジソース: $($kd.name) (Dataverse テーブル検索)`n"
+                $baseInstructions += "  - Dataverse MCP の list_records や search を使用してデータを取得`n"
+                $baseInstructions += "  - 検索キーワードに基づいて関連レコードを返す`n"
+            }
+        }
+    }
+}
+
+# Extract Dataverse table/column details from existing GPT instructions
+# If the original instructions reference specific tables/columns, preserve that context
+$dvTablePattern = "(?i)(table|テーブル)[^:：]*[:：]\s*(\w+)"
+$dvColumnPattern = "(?i)(column|列|カラム)[^:：]*[:：]\s*(\w+)"
+if ($baseInstructions -match $dvTablePattern) {
+    Write-Host "  Dataverse table reference found in instructions"
+}
+
 Write-Host "  Instructions length: $($baseInstructions.Length) chars"
 #endregion
 

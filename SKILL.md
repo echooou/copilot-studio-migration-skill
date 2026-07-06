@@ -222,7 +222,35 @@ If yes:
 | `TaskDialog` + InvokeFlowTaskAction | Power Automate | Workflow (via UI/Scout) |
 | `TaskDialog` + InvokeConnectorTaskAction | Connector | Tool (via UI/Scout) |
 | `GptComponentMetadata` (type 15) | GPT Config | `agentSettings.instructions` |
-| `KnowledgeSourceConfiguration` (type 16) | Knowledge | Dataverse MCP Tool |
+| `KnowledgeSourceConfiguration` (type 16) | Knowledge | Dataverse MCP Tool + Instructions にテーブル詳細記載 |
+
+### Dataverse Knowledge → MCP Tool Conversion
+
+Classic の Knowledge Source (Dataverse テーブル) は New Experience では Dataverse MCP Tool に変換されます。
+その際、**どのテーブルで何をするか**の情報を Instructions に明示的に記載する必要があります。
+
+**抽出する情報：**
+1. Knowledge Source の `kind` (DataverseStructuredSearchSource 等)
+2. GPT Config の instructions 内に記載されたテーブル名・列名・用途
+3. Dataverse MCP ツールの設定情報
+
+**Instructions に含める内容：**
+```
+## Dataverse MCP ツール利用ガイド
+Dataverse MCP Tool を使用してナレッジを検索します。
+- テーブル名: {tableName}
+- 検索列: {searchColumn} 
+- 回答列: {answerColumn}
+- 用途: {description}
+- 使用方法: Dataverse MCP の list_records や search を使用してデータを取得し、
+  検索キーワードに基づいて関連レコードを返す
+```
+
+**スクリプトの処理：**
+- Phase 1 で Knowledge Source (type 16) を検出
+- GPT Config の instructions からテーブル/列参照を抽出（既存記述を保持）
+- 既存 instructions に Dataverse テーブル情報が含まれていない場合、自動追加
+- Dataverse MCP Tool を botcomponent として登録
 
 ### Adaptive Card Conversion
 
