@@ -66,11 +66,10 @@ Copilot Studio の Classic エージェントは、Generative AI オーケスト
 
 ### Microsoft Scout
 
-1. Scout の設定 → **Import Skill**
-2. 「Drop a skill folder here」でこのリポジトリのフォルダを選択
-3. または SKILL.md の raw URL を貼り付け:
+1. Scout の **Extensions** → **Your skills** → **Import** を開く
+2. 「Paste raw SKILL.md URL」に以下を貼り付けて **Import** をクリック:
    ```
-   https://raw.githubusercontent.com/{owner}/copilot-studio-migration-skill/main/SKILL.md
+   https://raw.githubusercontent.com/echooou/copilot-studio-migration-skill/main/SKILL.md
    ```
 
 ## 使い方

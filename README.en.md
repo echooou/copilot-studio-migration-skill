@@ -60,17 +60,16 @@ Or manually place the folder:
 
 ### Microsoft Scout
 
-**Option A — Import via URL:**
-1. Open Scout Settings → **Import Skill**
-2. Paste the raw SKILL.md URL:
+**Option A — Import via URL (Recommended):**
+1. Open Scout → **Extensions** → **Your skills** → **Import**
+2. Paste the raw SKILL.md URL and click **Import**:
    ```
    https://raw.githubusercontent.com/echooou/copilot-studio-migration-skill/main/SKILL.md
    ```
-3. Click **Import**
 
 **Option B — Import via folder:**
 1. Clone or download this repository
-2. Open Scout Settings → **Import Skill**
+2. Open Scout → **Extensions** → **Your skills** → **Import**
 3. Select "Drop a skill folder here" and choose the cloned folder
 
 ## Usage
